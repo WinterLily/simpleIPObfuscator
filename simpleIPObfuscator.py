@@ -118,6 +118,11 @@ def randomObfuscationJob(operatingSystem, inputOctets, args):
                     obfuscatedIP = ".".join(obfuscatedFirstOctets + obfuscatedLastOctets)
                     if randomDotless == "true":
                         obfuscatedIP = obfuscatedIP.replace(".", "%2E")
+                    interpretedAddress = testObfuscatedIP(obfuscatedIP, operatingSystem)
+                    if interpretedAddress == args.ip:
+                        result = "[SUCCESS]"
+                    else:
+                        result = "[FAIL]"                    
                     print(F"{result} - Input Address: {args.ip}\n\tSpec:: Method: {randomMethod}, First: {firstMethod}, Last: {secondMethod}, Switch: {randomSwitch}, Dotless: {randomDotless}\n\t\t Obfuscated IP address: {obfuscatedIP} -> Interpreted As: {interpretedAddress}")
 
 
@@ -136,6 +141,7 @@ def randomObfuscationJob(operatingSystem, inputOctets, args):
                      print("[DUPLICATE] - Spec already used. Skipping...")
                      pass
                 else:
+                    jobSpecs.push(spec)                    
                     obfuscatedOctets = octetObfuscation(inputOctets, randomMethod, order="first")
                     obfuscatedIP = ".".join(obfuscatedOctets)
                     if randomDotless == "true":
